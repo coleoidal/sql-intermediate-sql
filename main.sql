@@ -6,4 +6,4 @@ INSERT INTO employees VALUES
     ('Dan', 60000),
     ('Eve', 70000);
 
--- SELECT name FROM employees WHERE salary > (SELECT AVG(salary) FROM employees);
+SELECT name FROM employees WHERE salary > (SELECT AVG(salary) FROM employees);
