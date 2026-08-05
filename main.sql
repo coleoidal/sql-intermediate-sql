@@ -1,19 +1,10 @@
-CREATE TABLE emps (name TEXT, department TEXT, salary INTEGER);
-INSERT INTO emps VALUES
-    ('Alice', 'eng', 100000),
-    ('Bob', 'eng', 80000),
-    ('Carol', 'eng', 120000),
-    ('Dan', 'eng', 90000),
-    ('Eve', 'sales', 70000),
-    ('Frank', 'sales', 60000),
-    ('Grace', 'sales', 80000);
+CREATE TABLE customers (id INTEGER, name TEXT);
+INSERT INTO customers VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Carol'), (4, 'Dan');
 
-WITH ranked AS (
-  SELECT name, department, salary,
-    ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as rn
-  FROM emps
-)
-SELECT name, department, salary
-FROM ranked
-WHERE rn <= 3
-ORDER BY department, salary DESC;
+CREATE TABLE orders (customer_id INTEGER, item TEXT);
+INSERT INTO orders VALUES (1, 'book'), (3, 'phone'), (1, 'pen');
+
+SELECT name FROM customers c
+EXCEPT
+SELECT c.name FROM customers c JOIN orders o ON c.id = o.customer_id 
+ORDER BY c.name;
