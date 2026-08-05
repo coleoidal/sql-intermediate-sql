@@ -1,10 +1,14 @@
-CREATE TABLE customers (id INTEGER, name TEXT);
-INSERT INTO customers VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Carol'), (4, 'Dan');
+CREATE TABLE accounts (id INTEGER PRIMARY KEY, balance INTEGER);
+INSERT INTO accounts VALUES(1, 500), (2, 600);
 
-CREATE TABLE orders (customer_id INTEGER, item TEXT);
-INSERT INTO orders VALUES (1, 'book'), (3, 'phone'), (1, 'pen');
+BEGIN TRANSACTION;
+UPDATE accounts
+  SET balance = balance - 100
+  WHERE id = 1;
+UPDATE accounts
+  SET balance = balance + 100
+  WHERE id = 2;
+COMMIT;
 
-SELECT name FROM customers c
-EXCEPT
-SELECT c.name FROM customers c JOIN orders o ON c.id = o.customer_id 
-ORDER BY c.name;
+SELECT id, balance FROM accounts
+ORDER BY id;
